@@ -1,0 +1,81 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "professor-v10"
+version = "0.1.0"
+description = "Enterprise Codebase-Aware Architecture Intelligence System"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.11"
+authors = [{ name = "Professor v10 Contributors" }]
+keywords = ["architecture", "code-analysis", "knowledge-graph", "static-analysis"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    # Data validation and settings management
+    "pydantic>=2.5",
+    "pydantic-settings>=2.1",
+
+    # Graph data structures and algorithms
+    "networkx>=3.2",
+
+    # YAML parsing for repo configs
+    "pyyaml>=6.0",
+
+    # Jinja2 for document generation templates
+    "jinja2>=3.1",
+
+    # Tree-sitter for multi-language AST parsing (to be enabled per language)
+    # "tree-sitter>=0.21",
+    # "tree-sitter-java>=0.21",
+    # "tree-sitter-typescript>=0.21",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "ruff>=0.1",
+    "black>=23.0",
+    "mypy>=1.5",
+]
+
+[project.urls]
+Homepage = "https://github.com/Yashasvi-Nag/Professor-v10"
+Repository = "https://github.com/Yashasvi-Nag/Professor-v10"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+ignore = ["E501"]
+
+[tool.black]
+target-version = ["py311"]
+line-length = 100
+
+[tool.mypy]
+python_version = "3.11"
+strict = false
+ignore_missing_imports = true

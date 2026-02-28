@@ -1,0 +1,105 @@
+# Professor v10 — Sample Repository Configuration
+#
+# This file demonstrates how to configure Professor v10 for a multi-repository
+# enterprise workspace. Pass this file to the system using:
+#
+#   python -m src.main --config examples/sample_repo_config.yaml
+#
+# All paths should be absolute or relative to the working directory.
+
+# ============================================================
+# Repositories to analyze
+# ============================================================
+repos:
+  - name: coupon-engine
+    path: /workspace/coupon-engine
+    language: java
+    source_root: src/main/java
+    exclude_patterns:
+      - "**/test/**"
+      - "**/generated/**"
+      - "**/target/**"
+
+  - name: feed-service
+    path: /workspace/feed-service
+    language: java
+    source_root: src/main/java
+    exclude_patterns:
+      - "**/test/**"
+      - "**/target/**"
+
+  - name: flutter-app
+    path: /workspace/flutter-app
+    language: dart
+    source_root: lib
+    exclude_patterns:
+      - "**/*.g.dart"
+      - "**/*.freezed.dart"
+      - "**/test/**"
+
+  - name: angular-admin
+    path: /workspace/angular-admin
+    language: typescript
+    source_root: src/app
+    exclude_patterns:
+      - "**/*.spec.ts"
+      - "**/*.d.ts"
+      - "**/node_modules/**"
+      - "**/dist/**"
+
+# ============================================================
+# Graph settings
+# ============================================================
+graph:
+  # Maximum traversal depth for impact analysis
+  max_traversal_depth: 10
+
+  # Claims below this confidence threshold will be flagged for review
+  min_confidence_threshold: 0.60
+
+  # Export the architecture graph to JSON after construction
+  export_graph_json: true
+  graph_export_path: output/architecture_graph.json
+
+# ============================================================
+# Parser settings
+# ============================================================
+parser:
+  # Use tree-sitter for precise AST parsing (requires tree-sitter to be installed)
+  use_tree_sitter: false
+
+  # Include test files in analysis
+  include_test_files: false
+
+  # Skip files larger than 500KB
+  max_file_size_kb: 500
+
+# ============================================================
+# Output settings
+# ============================================================
+output:
+  output_dir: output
+  output_format: markdown
+  include_evidence_links: true
+  include_trust_summary: true
+  solution_document_template: solution_document.md.j2
+
+# ============================================================
+# Schema alignment overrides
+# (Manually specify cross-language mappings when auto-detection
+# is insufficient. These overrides have confidence = 1.00)
+# ============================================================
+schema_overrides:
+  - java_class: CouponResponseDto
+    java_repo: coupon-engine
+    dart_class: CouponModel
+    dart_repo: flutter-app
+    typescript_interface: CouponDto
+    typescript_repo: angular-admin
+
+  - java_class: FeedItemDto
+    java_repo: feed-service
+    dart_class: FeedItemModel
+    dart_repo: flutter-app
+    typescript_interface: FeedItemInterface
+    typescript_repo: angular-admin
