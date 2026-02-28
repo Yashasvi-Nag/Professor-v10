@@ -2,6 +2,8 @@
 
 > A deterministic reasoning system that transforms distributed, evolving enterprise codebases into machine-reasonable architectural intelligence — acting as your **Principal Architect**.
 
+[![CI](https://github.com/Yashasvi-Nag/Professor-v10/actions/workflows/ci.yml/badge.svg)](https://github.com/Yashasvi-Nag/Professor-v10/actions/workflows/ci.yml)
+
 ---
 
 ## Table of Contents
@@ -11,6 +13,9 @@
 - [Key Challenges](#key-challenges)
 - [Desired Capability](#desired-capability)
 - [System Scope (Phase 1)](#system-scope-phase-1)
+- [High-Level Architecture](#high-level-architecture)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
 - [Formal Problem Definition](#formal-problem-definition)
 - [Why This Problem Is Hard](#why-this-problem-is-hard)
 - [Contributing](#contributing)
@@ -219,12 +224,169 @@ This requires solving six sub-problems:
 
 ---
 
+## High-Level Architecture
+
+```
+┌────────────────────────────────────────────────────────────────┐
+│                        Professor v10                           │
+│                                                                │
+│  ┌──────────────┐    ┌───────────────┐    ┌────────────────┐  │
+│  │  Multi-Repo  │    │  Architecture │    │  PRD           │  │
+│  │  Code        │───▶│  Graph        │◀───│  Clarification │  │
+│  │  Parsers     │    │  (Central     │    │  Engine        │  │
+│  │  Java/Dart/  │    │   Data Store) │    │                │  │
+│  │  TypeScript  │    └───────┬───────┘    └────────────────┘  │
+│  └──────────────┘            │                                │
+│                              ▼                                │
+│                    ┌─────────────────┐                        │
+│                    │  Impact         │                        │
+│                    │  Analysis &     │                        │
+│                    │  Propagation    │                        │
+│                    └────────┬────────┘                        │
+│                             │                                 │
+│                             ▼                                 │
+│                    ┌─────────────────┐                        │
+│                    │  Validated      │                        │
+│                    │  Architecture   │                        │
+│                    │  Document       │                        │
+│                    └─────────────────┘                        │
+└────────────────────────────────────────────────────────────────┘
+```
+
+### Components
+
+| Component | Location | Description |
+|---|---|---|
+| **Code Parsers** | `src/parsers/` | Language-specific AST parsers for Java, Dart, TypeScript |
+| **Architecture Graph** | `src/graph/` | Central graph data model, builder, store, and query engine |
+| **Impact Analysis** | `src/analysis/` | Change impact propagation and contract checking |
+| **PRD Clarifier** | `src/prd/` | Structured requirement clarification engine |
+| **Document Generator** | `src/output/` | Validated architectural change document generation |
+| **Validators** | `src/validators/` | Evidence-backed reasoning and confidence scoring |
+
+---
+
+## Project Structure
+
+```
+Professor-v10/
+├── README.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── .gitignore
+├── pyproject.toml
+├── Makefile
+├── docs/
+│   ├── design/
+│   │   ├── 00-system-overview.md
+│   │   ├── 01-code-graph-extraction.md
+│   │   ├── 02-cross-language-schema-alignment.md
+│   │   ├── 03-dependency-modeling.md
+│   │   ├── 04-prd-clarification-engine.md
+│   │   ├── 05-change-impact-propagation.md
+│   │   └── 06-trust-validation.md
+│   └── adr/
+│       ├── 001-python-as-orchestration-language.md
+│       ├── 002-graph-first-architecture.md
+│       ├── 003-static-analysis-only-phase1.md
+│       ├── 004-multi-parser-strategy.md
+│       └── 005-evidence-backed-reasoning.md
+├── src/
+│   ├── config/
+│   ├── parsers/
+│   ├── graph/
+│   ├── analysis/
+│   ├── prd/
+│   ├── output/
+│   └── validators/
+├── tests/
+│   ├── test_parsers/
+│   ├── test_graph/
+│   ├── test_analysis/
+│   └── test_prd/
+└── examples/
+    ├── sample_feature_request.md
+    ├── sample_impact_report.md
+    └── sample_repo_config.yaml
+```
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Python 3.11+
+- [uv](https://github.com/astral-sh/uv) (recommended) or pip
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/Yashasvi-Nag/Professor-v10.git
+cd Professor-v10
+
+# Create virtual environment and install dependencies
+make setup
+
+# Verify installation
+make test
+```
+
+### Development Setup
+
+```bash
+# Install dev dependencies
+pip install -e ".[dev]"
+
+# Run linter
+make lint
+
+# Run tests
+make test
+
+# Run formatter
+make format
+```
+
+### Running the System
+
+```bash
+# Coming in Phase 1 implementation
+# make run --config examples/sample_repo_config.yaml
+```
+
+---
+## Formal Problem Definition
+
+```
+Given:
+  - A large multi-language, multi-service enterprise codebase
+  - Unstructured feature proposals from non-technical stakeholders
+  - Distributed architectural knowledge
+
+Build:
+  A deterministic reasoning system that can:
+  - Clarify requirements
+  - Map feature intent to code components
+  - Identify all impacted artifacts
+  - Produce validated architectural change documentation
+
+Without:
+  - Hallucination
+  - Omitted dependencies
+  - Contract drift
+  - Architectural blind spots
+```
+
+---
+
 ## Contributing
 
-Contributions are welcome. Please open an issue to discuss proposed changes before submitting a pull request.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ---
 
 ## License
 
-This project is proprietary. See repository settings for access details.
+MIT License — see [LICENSE](LICENSE) for details.
